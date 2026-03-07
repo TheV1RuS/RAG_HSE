@@ -1,0 +1,7 @@
+openai
+python-dotenv
+pypdf
+openpyxl
+faiss-cpu
+numpy
+tqdm
