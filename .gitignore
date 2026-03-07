@@ -1,0 +1,49 @@
+# ---- Secrets ----
+.env
+*.env
+.env.*
+!.env.example
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.so
+*.dll
+
+# ---- Virtual env ----
+.venv/
+venv/
+env/
+
+# ---- Packaging / build ----
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ---- Test / coverage ----
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ---- Jupyter ----
+.ipynb_checkpoints/
+
+# ---- PyCharm / IntelliJ ----
+.idea/
+*.iml
+
+# ---- Windows ----
+Thumbs.db
+Desktop.ini
+
+# ---- Project artifacts (do not commit) ----
+outputs/
+data/
+*.log
+
+# If you ever generate FAISS artifacts in repo root by mistake
+*.index
+*.faiss
