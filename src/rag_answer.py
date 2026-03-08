@@ -83,13 +83,33 @@ def _llm_answer(question: str, context: str, retries: int = 2) -> str:
     return "В документе не указано."
 
 
-def answer_question(question: str) -> tuple[str, dict[str, Any]]:
-    chunks = retrieve_chunks(question)
-    context = _compose_context(chunks)
-    answer = _llm_answer(question, context)
+def _looks_like_injection(q: str) -> bool:
+    ql = q.lower()
+    triggers = [
+        "игнорируй", "ignore", "придумай", "invent", "секретн", "secret",
+        "не опирайся", "неважно", "любой ценой", "обойди", "bypass",
+        "system prompt", "политик", "policy",
+    ]
+    return any(t in ql for t in triggers)
 
+
+def answer_question(question: str) -> tuple[str, dict[str, Any]]:
+    q = (question or "").strip()
+
+    # Hard guard against prompt injection / rule-breaking prompts
+    if _looks_like_injection(q):
+        answer = "В документе не указано."
+        return answer, {"question": q, "answer": answer, "model": settings.llm_model, "retrieved_chunks": []}
+
+    chunks = retrieve_chunks(q)
+    if not chunks:
+        answer = "В документе не указано."
+        return answer, {"question": q, "answer": answer, "model": settings.llm_model, "retrieved_chunks": []}
+
+    context = _compose_context(chunks)
+    answer = _llm_answer(q, context)
     debug = {
-        "question": question,
+        "question": q,
         "answer": answer,
         "model": settings.llm_model,
         "retrieved_chunks": [
