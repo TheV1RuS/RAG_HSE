@@ -1,0 +1,1 @@
+python scripts\run_fill_testset.py --in test_set_Shalugin_Dmitrii.xlsx --out outputs\test_set_Shalugin_Dmitrii.xlsx
